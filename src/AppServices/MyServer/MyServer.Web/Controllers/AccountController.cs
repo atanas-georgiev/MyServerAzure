@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace MyServer.Controllers
+namespace MyServer.Web.Controllers
 {
     [Route("[controller]/[action]")]
     public class AccountController : Controller
