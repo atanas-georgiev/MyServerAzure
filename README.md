@@ -3,7 +3,7 @@
 ### Build status
 |                |Build status
 |----------------|-------------------------------|
-|VSTS|[![](https://atanasit.visualstudio.com/0718d046-0f70-423f-a0b7-c8c397d95c38/_apis/build/status/MyServer-Build?branch=master)](https://atanasit.visualstudio.com/0718d046-0f70-423f-a0b7-c8c397d95c38/_build/latest?definitionId=1&branch=master)|
+|VSTS|[<img src="https://atanasit.visualstudio.com/0718d046-0f70-423f-a0b7-c8c397d95c38/_apis/build/status/1">]()|
 
 ### Deployment status
 |                |Staging|Production|
