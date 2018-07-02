@@ -1,0 +1,22 @@
+﻿@using cloudscribe.Web.Navigation
+@using Microsoft.Extensions.Localization
+@using MyServer.Web.Helpers
+@model NavigationViewModel
+@inject IStringLocalizer<SharedResource> SharedLocalizer
+@if (Model.CurrentNode != null && Model.ParentChain.Count > 1)
+{
+        <ul class="breadcrumb well well-mobile">
+            @foreach (var node in Model.ParentChain)
+            {
+                if (!Model.ShouldAllowView(node)) { continue; }
+                if (node.EqualsNode(Model.CurrentNode))
+                {
+                    <li class="active">@SharedLocalizer[Model.AdjustText(node)]</li>
+                }
+                else
+                {
+                    <li><a href="@Url.Content(Model.AdjustUrl(node))">@SharedLocalizer[Model.AdjustText(node)]</a><span class="divider"></span></li>
+                }
+            }
+        </ul>
+}

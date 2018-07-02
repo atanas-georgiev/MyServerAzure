@@ -1,13 +1,8 @@
-body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
-
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+﻿/* Set widths on the form inputs since otherwise they're 100% wide */
+input,
+select,
+textarea {
+    max-width: 280px;
 }
 
 /* Carousel */
@@ -16,20 +11,309 @@ body {
     line-height: 1.4;
 }
 
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
+/* buttons and links extension to use brackets: [ click me ] */
+.btn-bracketed::before {
+    display:inline-block;
+    content: "[";
+    padding-right: 0.5em;
+}
+.btn-bracketed::after {
+    display:inline-block;
+    content: "]";
+    padding-left: 0.5em;
 }
 
-/* QR code generator */
-#qrCode {
-    margin: 15px;
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"]
+{
+    width: 100%;
 }
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
+  /* Hide captions */
+  .carousel-caption {
+    display: none
+  }
+}
+
+h1 {
+    font-size: 1.5em;
+    text-transform: uppercase;
+    color: white;
+    text-shadow: 0px 0px 10px #000, -1px -1px #000, 0px 0px #000;
+}
+
+h2 {
+    font-size: 1.3em;
+    color: white;
+    margin: 5px;
+    text-shadow: 0px 0px 10px #000, -1px -1px #000, 0px 0px #000;
+}
+
+th, tr, a, p, .form-control, label, label.control-label, .text-danger, .active {
+    color: white !important;
+    text-shadow: 0px 0px 10px #000, -1px -1px #000, 0px 0px #000;
+    font-size: 1em;
+}
+
+.text-danger {
+    color: red;
+}
+
+option {
+   color: black; 
+}
+
+figure {
+    display: inline;
+}
+
+@media only screen and (min-width: 768px) {
+    .body-content, .well-mobile {
+        padding: 10px !important;
     }
+
+    .navbar, .well, .well a:visited, .btn, .dropdown-menu, .dropdown-menu li a {
+        color: #fff !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+        text-shadow: none !important;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .body-content, .well-mobile {
+        padding: 2px !important
+    }
+
+    .body-content div {
+        padding: 0px;
+    }
+
+    .navbar {
+        color: #fff !important;
+        background: rgba(0, 0, 0, 1) !important;
+        text-shadow: none !important;
+    }
+
+    .well, .well a:visited, .btn {
+        color: #fff !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+        text-shadow: none !important;
+    }
+
+    .form-group {
+        margin-left: 0!important;
+        margin-right: 0!important;
+    }
+}
+
+.form-group > div, form > .row, form > .row > div {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
+.overlay-album h1{
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 30px;
+    max-height: 30px;
+    text-transform: capitalize;
+    margin: 0;
+    text-shadow: 0px 0px 10px #000, -1px -1px #000, 0px 0px #000;
+}
+
+.overlay-album p{
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    max-height: 18px;
+    margin: 0;
+    text-shadow: 0px 0px 10px #000, -1px -1px #000, 0px 0px #000;
+}
+
+.overlay-album-link {
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0);
+}
+
+.overlay-album-link::before {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: transparent;
+    transition: background .35s ease-out;
+}
+
+.overlay-album-image {
+    display: block;
+    min-width: 100%;
+    max-width: 100%;
+    height: auto;
+}
+
+a div.overlay-album-caption, div div.overlay-album-caption {
+    position: absolute;
+    font-size: 0.8em;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 10px;
+    color: white;
+    transform: translateY(100%);
+    transition: transform .35s ease-out;
+}
+
+.overlay-album-title {
+    transform: translateY( calc(-100% - 55px) );
+}
+.overlay-album-content {
+    transform: translateY( calc(-100% - 65px) );
+}
+
+.overlay-admin-album-checkbox {
+    transform: translateY( calc(-100% - 20px) );
+    text-shadow: 4px 4px 4px #000000;
+}
+
+.overlay-admin-album-text {    
+    transform: translate(50px, calc(-100% - 15px));
+    color: #eee;
+    text-shadow: 2px 2px 2px #000000;
+}
+
+.overlay-user-album-text {    
+    transform: translate(0px, calc(-100% - 15px));
+    color: #eee;
+    text-shadow: 2px 2px 2px #000000;
+}
+
+.modal form, .modal .form-control, .modal button, .modal input, .modal .modal-body {
+    display: inline !important;
+} 
+
+.modal-dialog {
+    text-align: center;
+}
+
+.pac-container  {
+    z-index: 1000000000
+}
+
+.overlay-admin-album-checkbox i {
+    font-size: 2em;
+}
+
+footer p, footer p a:visited {
+    color: #fff!important;
+    text-shadow: 1px 1px 1px #000;
+}
+
+.social a i, .social a:visited {
+    font-size: 2.5em;
+    color: #fff!important;
+    margin: 15px;
+}
+
+.github-frame {
+    background: rgba(222, 222, 222, 0.8)!important;
+}
+
+.modal input {
+    color: black;
+    text-shadow: none; 
+}
+
+#image-edit-box form {
+    display: inline-block;
+}
+
+.image-edit-box-title-btn, .image-edit-box-date-btn, .image-edit-box-location-btn, .image-edit-box-delete-btn, .image-edit-box-rotate-left-btn, .image-edit-box-rotate-right-btn, 
+#image-edit-box button {
+    font-size: 1.5em;
+    padding: 12px;
+    margin: 0px;
+    display: inline-block;
+}
+
+.navbar-brand img {
+    padding-top: 10px;
+}
+
+.text-danger, .field-validation-error {
+    color: red!important;
+}
+
+.text-error {
+    font-size: 3em;
+}
+
+.reset-this {
+    color: white !important;
+    text-shadow: 0px 0px 10px #000, -1px -1px #000, 0px 0px #000;
+}
+
+.reset-this h1 {
+    display: block;
+    font-size: 2rem;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+}
+
+.reset-this h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+}
+
+.reset-this h3 {
+    display: block;
+    font-size: 1.17em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+}
+
+.reset-this h4 {
+    display: block;
+    font-size: 1em;
+    margin-top: 1.33em;
+    margin-bottom: 1.33em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+}
+
+.reset-this h5 {
+    display: block;
+    font-size: .83em;
+    margin-top: 1.67em;
+    margin-bottom: 1.67em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+}
+
+.reset-this h6 {
+    display: block;
+    font-size: .67em;
+    margin-top: 2.33em;
+    margin-bottom: 2.33em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
 }
