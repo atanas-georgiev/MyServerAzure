@@ -57,7 +57,12 @@ namespace MyServer.Web
 
             app.UseAuthentication();
 
-            app.UseMvc();
+            app.UseMvc(
+                routes =>
+                    {
+                        routes.MapRoute(name: "areaRoute", template: "{area:exists}/{controller}/{action=Index}/{id?}");
+                        routes.MapRoute(name: "default", template: "{controller}/{action=Index}/{id?}");
+                    });
         }
 
         public void ConfigureServices(IServiceCollection services)
