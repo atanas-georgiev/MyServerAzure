@@ -1,21 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-
 namespace MyServer.Web.Pages
 {
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+
     public class ErrorModel : PageModel
     {
-        public string RequestId { get; set; }
+        public new int? StatusCode = 0;
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
-
-        public void OnGet()
+        public void OnGet(int? statusCode)
         {
-            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+            this.StatusCode = statusCode;
         }
     }
 }

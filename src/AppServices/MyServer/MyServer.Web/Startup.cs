@@ -8,6 +8,7 @@ namespace MyServer.Web
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Localization;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Localization;
@@ -50,7 +51,8 @@ namespace MyServer.Web
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler("/Error?statusCode=500");
+                app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
             }
 
             app.UseStaticFiles();
@@ -76,7 +78,7 @@ namespace MyServer.Web
 
             services.AddCloudscribeNavigation();
 
-            services.AddMvc()
+            services.AddMvc(options => options.Filters.Add(typeof(RequireHttpsAttribute)))
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver())
                 .AddRazorPagesOptions(options => { }).AddViewLocalization(x => x.ResourcesPath = "Resources");
         }
