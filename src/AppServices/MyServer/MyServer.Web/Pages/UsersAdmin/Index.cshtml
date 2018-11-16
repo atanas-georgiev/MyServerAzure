@@ -1,0 +1,54 @@
+﻿@page
+@inject IStringLocalizer<SharedResource>  SharedLocalizer
+@{
+}
+
+@using System.Threading.Tasks
+@using Kendo.Mvc.UI
+@using MyServer.Web.Helpers
+@using MyServer.Web.Pages.UsersAdmin
+@{
+    ViewData["Title"] = SharedLocalizer["UserAdministration"];
+}
+
+<div class="well">
+    <div class="text-center">
+        <h2>@SharedLocalizer["UserAdministration"]</h2>
+        <hr />
+    </div>
+    <div class="row">
+        @(Html.Kendo().Grid<UsersViewModel>().Name("grid").Columns(columns =>
+        {
+        columns.Bound(p => p.Email).EditorTemplateName("KendoTextBox");
+        columns.Bound(p => p.DisplayName).EditorTemplateName("KendoTextBox");
+        columns.Bound(p => p.Role).EditorTemplateName("KendoDropDownRoles");
+        columns.Command(command =>
+        {
+        command.Edit();
+        });
+        }).Editable(editable => editable.Mode(GridEditMode.PopUp)).Pageable().Sortable().Scrollable()
+        .HtmlAttributes(new { style = "height:550px;" })
+        .DataSource(dataSource => dataSource.Ajax().PageSize(20)
+        .Events(events => events.Error("error_handler")).Model(model => model.Id(p => p.RowKey))
+        .Read(read => read.Url("/UsersAdmin/Json/UsersRead"))
+        .Update(update => update.Url("/UsersAdmin/Json/UsersUpdate"))
+        ))
+    </div>
+</div>
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors,
+                function (key, value) {
+                    if ('errors' in value) {
+                        $.each(value.errors,
+                            function () {
+                                message += this + "\n";
+                            });
+                    }
+                });
+            alert(message);
+        }
+    }
+</script>

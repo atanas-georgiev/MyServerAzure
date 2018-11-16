@@ -1,0 +1,21 @@
+@{
+    var LocString = ViewBag.StringLocalizer;
+}
+
+<div class="well well-mobile">
+    <div>
+        <h1>
+            @LocString["Statistics"]
+        </h1>
+        <hr />
+        <h2>
+            @ViewBag.AlbumsCount @LocString["AlbumsList"]
+        </h2>
+        <h2>
+            @ViewBag.ImagesCount @LocString["Images"]
+        </h2>
+        <h2>
+            @ViewBag.AllSize @LocString["Gigabytes"]
+        </h2>
+    </div>
+</div>

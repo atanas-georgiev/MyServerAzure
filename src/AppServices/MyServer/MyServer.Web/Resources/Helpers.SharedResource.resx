@@ -339,4 +339,7 @@
   <data name="NewAlbum" xml:space="preserve">
     <value>New album</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
 </root>

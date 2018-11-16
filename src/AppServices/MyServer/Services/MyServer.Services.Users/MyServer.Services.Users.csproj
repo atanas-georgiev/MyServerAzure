@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Graph" Version="1.12.0" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="2.4.0-preview" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\MyServer.Data.Common\MyServer.Data.Common.csproj" />
+    <ProjectReference Include="..\..\Data\MyServer.Data.Models\MyServer.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\MyServer.Data\MyServer.Data.csproj" />
+  </ItemGroup>
+
+</Project>

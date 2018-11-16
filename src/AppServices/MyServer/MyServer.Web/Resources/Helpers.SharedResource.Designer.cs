@@ -456,5 +456,13 @@ namespace MyServer.Web.Resources {
                 return ResourceManager.GetString("Videos", resourceCulture);
             }
         }
+
+        public static string Name
+        {
+            get
+            {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
     }
 }

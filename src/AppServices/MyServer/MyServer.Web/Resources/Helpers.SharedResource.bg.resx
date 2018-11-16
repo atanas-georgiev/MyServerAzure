@@ -339,4 +339,7 @@
   <data name="NewAlbum" xml:space="preserve">
     <value>Нов албум</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>Име</value>
+  </data>
 </root>
