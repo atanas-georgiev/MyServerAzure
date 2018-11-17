@@ -7,19 +7,22 @@
 
     public class Image : BaseModel
     {
-        public Image(Guid album)
-            : base(album.ToString(), Guid.NewGuid().ToString())
+        public Image()
+            : base(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())
         {
-            this.AlbumId = album;
         }
 
-        public Image(Guid album, Guid id)
-            : base(album.ToString(), id.ToString())
+        public Image(string albumId)
+            : base(albumId, Guid.NewGuid().ToString())
         {
-            this.AlbumId = album;
         }
 
-        public Guid AlbumId { get; set; }
+        public Image(string albumId, string id)
+            : base(albumId, id)
+        {
+        }
+
+        public string AlbumId { get; set; }
 
         [MaxLength(50)]
         public string Aperture { get; set; }

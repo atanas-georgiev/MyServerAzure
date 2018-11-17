@@ -1,25 +1,25 @@
 ﻿namespace MyServer.Services.ImageGallery
 {
-    using System;
-    using System.Linq;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Models;
 
     public interface IAlbumService
     {
-        void Add(Album album);
+        Task AddAsync(Album album);
 
-        string GenerateZipArchive(Guid id, ImageType type);
+        Task<string> GenerateZipArchiveAsync(string id, ImageType type);
 
-        IQueryable<Album> GetAllReqursive(bool cache = true);
+        Task<IEnumerable<Album>> GetAllReqursiveAsync(bool cache = true);
 
-        Album GetById(Guid id, bool cache = true);
+        Task<Album> GetByIdAsync(string id, bool cache = true);
 
-        void Remove(Guid id);
+        Task RemoveAsync(string id);
 
-        void Update(Album album);
+        Task UpdateAsync(Album album);
 
-        void UpdateCoverImage(Guid album, Guid image);
+        Task UpdateCoverImageAsync(string albumId, string imageId);
     }
 }

@@ -231,16 +231,16 @@
 
         public void PrepareFileForDownload(Guid id)
         {
-            var image = this.GetById(id);
-            var filePathServer = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "\\" + image.AlbumId
-                                 + "\\" + Constants.ImageFolderOriginal + "\\" + image.FileName;
-            var filePathTemp = this.appEnvironment.WebRootPath + Constants.TempContentFolder + "\\" + id + "\\"
-                               + image.OriginalFileName;
+            //var image = this.GetById(id);
+            //var filePathServer = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "\\" + image.AlbumId
+            //                     + "\\" + Constants.ImageFolderOriginal + "\\" + image.FileName;
+            //var filePathTemp = this.appEnvironment.WebRootPath + Constants.TempContentFolder + "\\" + id + "\\"
+            //                   + image.OriginalFileName;
 
-            this.fileService.EmptyTempFolder();
-            Directory.CreateDirectory(this.appEnvironment.WebRootPath + Constants.TempContentFolder + "\\" + id);
+            //this.fileService.EmptyTempFolder();
+            //Directory.CreateDirectory(this.appEnvironment.WebRootPath + Constants.TempContentFolder + "\\" + id);
 
-            File.Copy(filePathServer, filePathTemp);
+            //File.Copy(filePathServer, filePathTemp);
         }
 
         public void Remove(Guid id)

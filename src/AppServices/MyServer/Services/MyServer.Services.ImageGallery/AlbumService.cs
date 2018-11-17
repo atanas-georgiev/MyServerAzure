@@ -1,13 +1,16 @@
 ﻿namespace MyServer.Services.ImageGallery
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.IO.Compression;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Caching.Memory;
+    using Microsoft.WindowsAzure.Storage.Table;
 
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Common;
@@ -15,27 +18,23 @@
 
     public class AlbumService : IAlbumService
     {
-        private readonly IRepository albums;
-
-        private readonly IHostingEnvironment appEnvironment;
+        private readonly IRepository<Album> albums;
 
         private readonly IFileService fileService;
 
-        private readonly IRepository images;
+        private readonly IRepository<Image> images;
 
         private readonly IMemoryCache memoryCache;
 
         public AlbumService(
             IRepository<Album> albums,
             IRepository<Image> images,
-            IHostingEnvironment appEnvironment,
             IFileService fileService,
             IMemoryCache memoryCache)
         {
             this.albums = albums;
             this.images = images;
-            this.fileService = fileService;
-            this.appEnvironment = appEnvironment;
+            this.fileService = fileService;;
             this.memoryCache = memoryCache;
         }
 
@@ -108,36 +107,6 @@
             return null;
         }
 
-        public IQueryable<Album> GetAllReqursive(bool cache = true)
-        {
-            //var firstAlbumToExcludeGuid = Guid.Parse(Constants.NoCoverId);
-
-            //if (cache)
-            //{
-            //    IQueryable<Album> result = null;
-
-            //    if (!this.memoryCache.TryGetValue(CacheKeys.AlbumsServiceCacheKey, out result))
-            //    {
-            //        // fetch the value from the source
-            //        result = this.albums.All().Include(x => x.Cover).Include(x => x.Images)
-            //            .ThenInclude(x => x.ImageGpsData)
-            //            .Where(x => x.IsDeleted == false && x.Id != firstAlbumToExcludeGuid).ToList().AsQueryable();
-
-            //        // store in the cache
-            //        this.memoryCache.Set(
-            //            CacheKeys.AlbumsServiceCacheKey,
-            //            result,
-            //            new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(365)));
-            //    }
-
-            //    return result;
-            //}
-
-            //return this.albums.All().Include(x => x.Cover).Include(x => x.Images).ThenInclude(x => x.ImageGpsData)
-            //    .Where(x => x.IsDeleted == false && x.Id != firstAlbumToExcludeGuid).ToList().AsQueryable();
-            return null;
-        }
-
         public Album GetById(Guid id, bool cache = true)
         {
             return null;//this.GetAllReqursive(cache).FirstOrDefault(x => x.Id == id);
@@ -174,14 +143,83 @@
             //this.memoryCache.Remove(CacheKeys.FileServiceCacheKey);
         }
 
-        public void UpdateCoverImage(Guid album, Guid image)
+        public void UpdateCoverImage(string album, string image)
         {
-            var albumDb = this.GetById(album, false);
-            albumDb.CoverId = image;
-            this.Update(albumDb);
-            this.memoryCache.Remove(CacheKeys.AlbumsServiceCacheKey);
-            this.memoryCache.Remove(CacheKeys.ImageServiceCacheKey);
-            this.memoryCache.Remove(CacheKeys.FileServiceCacheKey);
+            //var albumDb = this.GetById(album, false);
+            //albumDb.CoverId = image;
+            //this.Update(albumDb);
+            //this.memoryCache.Remove(CacheKeys.AlbumsServiceCacheKey);
+            //this.memoryCache.Remove(CacheKeys.ImageServiceCacheKey);
+            //this.memoryCache.Remove(CacheKeys.FileServiceCacheKey);
+        }
+
+        public async Task AddAsync(Album album)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<string> GenerateZipArchiveAsync(string id, ImageType type)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Album>> GetAllReqursiveAsync(bool cache = true)
+        {
+            var firstAlbumToExcludeGuid = Guid.Parse(Constants.NoCoverId);
+
+            if (cache)
+            {
+                IEnumerable<Album> result = null;
+
+                if (!this.memoryCache.TryGetValue(CacheKeys.AlbumsServiceCacheKey, out result))
+                {
+                    // fetch the value from the source
+                    result = await this.albums.GetAllAsync();
+
+                    foreach (var album in result)
+                    {
+                        //album.Images = await this.images.QueryAsync
+                        //    (TableQuery.GenerateFilterCondition(album.PartitionKey.GetType().Name, QueryComparisons.Equal, album.RowKey));
+                    }
+
+                    //result = this.albums.All().Include(x => x.Cover).Include(x => x.Images)
+                    //    .ThenInclude(x => x.ImageGpsData)
+                    //    .Where(x => x.IsDeleted == false && x.Id != firstAlbumToExcludeGuid).ToList().AsQueryable();
+
+                    // store in the cache
+                    this.memoryCache.Set(
+                        CacheKeys.AlbumsServiceCacheKey,
+                        result,
+                        new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(365)));
+                }
+
+                return result;
+            }
+
+            return null;
+                //this.albums.All().Include(x => x.Cover).Include(x => x.Images).ThenInclude(x => x.ImageGpsData)
+                //.Where(x => x.IsDeleted == false && x.Id != firstAlbumToExcludeGuid).ToList().AsQueryable();
+
+        }
+
+        public async Task<Album> GetByIdAsync(string id, bool cache = true)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task RemoveAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task UpdateAsync(Album album)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task UpdateCoverImageAsync(string albumId, string imageId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

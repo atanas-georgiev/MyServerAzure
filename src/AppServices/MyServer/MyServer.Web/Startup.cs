@@ -25,6 +25,7 @@ namespace MyServer.Web
 
     using MyServer.Data.Common;
     using MyServer.Data.Models;
+    using MyServer.Services.ImageGallery;
     using MyServer.Services.Mappings;
     using MyServer.Services.Users;
     using MyServer.Web.Helpers;
@@ -136,6 +137,7 @@ namespace MyServer.Web
 
             services.Add(ServiceDescriptor.Scoped(typeof(IRepository<>), typeof(AzureTableStorage<>)));
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IFileService, FileService>();
 
             services.AddMvc(options => options.Filters.Add(typeof(RequireHttpsAttribute)))
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver())

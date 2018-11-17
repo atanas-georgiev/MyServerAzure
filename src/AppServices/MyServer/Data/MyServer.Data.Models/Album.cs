@@ -1,14 +1,15 @@
 ﻿namespace MyServer.Data.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using MyServer.Data.Common.Models;
 
     public class Album : BaseModel
     {
-        public Album(Guid id)
-            : base("album", id.ToString())
+        public Album(string id)
+            : base("album", id)
         {
         }
 
@@ -17,9 +18,11 @@
         {
         }
 
+        public IEnumerable<Image> Images { get; set; }
+
         public int Access { get; set; }
 
-        public Guid? CoverId { get; set; }
+        public string CoverId { get; set; }
 
         [MaxLength(3000)]
         public string DescriptionBg { get; set; }

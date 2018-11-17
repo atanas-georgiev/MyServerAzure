@@ -26,12 +26,13 @@
 
         public IViewComponentResult Invoke(string allAlbumsRoute)
         {
-            var albums = this.albumService.GetAllReqursive().To<LatestAddedAlbumsViewModel>();
+            //var albums = this.albumService.GetAllReqursive().To<LatestAddedAlbumsViewModel>();
 
-            this.ViewBag.StringLocalizer = this.localizer;
-            this.ViewBag.AllAlbumsRoute = allAlbumsRoute;
+            //this.ViewBag.StringLocalizer = this.localizer;
+            //this.ViewBag.AllAlbumsRoute = allAlbumsRoute;
 
-            return this.View(albums);
+            //return this.View(albums);
+            return null;
         }
     }
 }

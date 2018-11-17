@@ -41,7 +41,7 @@
             if (type == ImageListType.Album)
             {
                 var id = data as Guid?;
-                images = this.imageService.GetAllReqursive().Where(x => x.AlbumId == id).To<ImageListViewModel>()
+                images = this.imageService.GetAllReqursive().Where(x => x.AlbumId == id.ToString()).To<ImageListViewModel>()
                     .OrderBy(x => x.DateTaken).ToList();
             }
             else if (type == ImageListType.Date)

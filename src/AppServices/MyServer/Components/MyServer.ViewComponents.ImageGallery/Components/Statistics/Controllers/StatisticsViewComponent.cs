@@ -34,10 +34,10 @@
 
         public IViewComponentResult Invoke()
         {
-            this.ViewBag.AlbumsCount = this.albumService.GetAllReqursive().Count();
-            this.ViewBag.ImagesCount = this.imageService.GetAllReqursive().Count();
-            this.ViewBag.AllSize = this.fileService.GetImageFolderSize();
-            this.ViewBag.StringLocalizer = this.localizer;
+            //this.ViewBag.AlbumsCount = this.albumService.GetAllReqursive().Count();
+            //this.ViewBag.ImagesCount = this.imageService.GetAllReqursive().Count();
+            //this.ViewBag.AllSize = this.fileService.GetImageFolderSize();
+            //this.ViewBag.StringLocalizer = this.localizer;
 
             return this.View();
         }

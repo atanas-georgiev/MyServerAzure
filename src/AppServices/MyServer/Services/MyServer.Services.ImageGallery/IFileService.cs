@@ -2,25 +2,26 @@
 {
     using System;
     using System.IO;
+    using System.Threading.Tasks;
 
     using MyServer.Common.ImageGallery;
 
     public interface IFileService
     {
-        void CreateInitialFolders(Guid albumId);
+        Task CreateInitialFoldersAsync(Guid albumId);
 
-        void EmptyTempFolder();
+        Task EmptyTempFolderAsync();
 
-        string GetImageFolder(Guid albumId, ImageType type);
+        Task<string> GetImageFolderAsync(Guid albumId, ImageType type);
 
-        string GetImageFolderSize();
+        Task<string> GetImageFolderSizeAsync();
 
-        string MakeValidFileName(string name);
+        Task<string> MakeValidFileNameAsync(string name);
 
-        void RemoveAlbum(Guid albumId);
+        Task RemoveAlbumAsync(Guid albumId);
 
-        void RemoveImage(Guid albumId, string fileName);
+        Task RemoveImageAsync(Guid albumId, string fileName);
 
-        void Save(Stream inputStream, ImageType type, string originalFilename, Guid albumId);
+        Task SaveAsync(Stream inputStream, ImageType type, string originalFilename, Guid albumId);
     }
 }
