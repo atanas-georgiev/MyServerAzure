@@ -8,6 +8,7 @@
     <PackageReference Include="Magick.NET.Core-Q8">
       <Version>7.0.3.502</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.1.2" />
     <PackageReference Include="Microsoft.NETCore.Portable.Compatibility">
       <Version>1.0.2</Version>
     </PackageReference>
@@ -24,7 +25,6 @@
     <ProjectReference Include="..\..\Common\MyServer.Common\MyServer.Common.csproj" />
     <ProjectReference Include="..\..\Data\MyServer.Data.Common\MyServer.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\MyServer.Data.Models\MyServer.Data.Models.csproj" />
-    <ProjectReference Include="..\..\Data\MyServer.Data\MyServer.Data.csproj" />
   </ItemGroup>
 
 </Project>

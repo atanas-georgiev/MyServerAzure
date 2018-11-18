@@ -38,7 +38,7 @@ namespace MyServer.Web
     {
         public static IServiceScopeFactory scopeFactory = null;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IServiceProvider serviceProvider)
         {
             this.Configuration = configuration;
         }
@@ -93,6 +93,7 @@ namespace MyServer.Web
                     });
 
             app.UseAuthentication();
+            app.UseHttpsRedirection();
 
             app.UseMvc(
                 routes =>
@@ -147,11 +148,10 @@ namespace MyServer.Web
 
             services.AddMvc(options => options.Filters.Add(typeof(RequireHttpsAttribute)))
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver())
-                .AddRazorPagesOptions(options => { }).AddViewLocalization(x => x.ResourcesPath = "Resources");
+                .AddRazorPagesOptions(options => { }).AddViewLocalization(x => x.ResourcesPath = "Resources")
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddKendo();
-
-            services.Configure<IISOptions>(options => { });
 
             var embeddedFileProviders = new List<EmbeddedFileProvider>();
 

@@ -1,7 +1,10 @@
 @using System.Security.Principal
 @using Microsoft.AspNetCore.Authentication
+@using Microsoft.Extensions.Localization
 @using Microsoft.Extensions.Options
+@using MyServer.Web.Helpers
 @inject IOptions<AzureAdB2COptions> AzureAdB2COptions
+@inject IStringLocalizer<SharedResource> SharedLocalizer
 
 @if (User.Identity.IsAuthenticated)
 {
