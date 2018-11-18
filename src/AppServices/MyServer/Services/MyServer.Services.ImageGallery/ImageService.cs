@@ -11,6 +11,7 @@
 
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Caching.Memory;
+    using Microsoft.WindowsAzure.Storage.Table;
 
     using MyServer.Common;
     using MyServer.Common.ImageGallery;
@@ -205,7 +206,10 @@
 
         public async Task<IEnumerable<Image>> GetAllFromAlbumAsync(string albumId, bool cache = true)
         {
-            return (await this.GetAllAsync(cache)).Where(x => x.PartitionKey == albumId);
+            var filter = TableQuery
+                .GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, albumId);
+            var result = await this.images.QueryAsync(new TableQuery<Image>().Where(filter));
+            return result;
         }
 
         public async Task<Image> GetByIdAsync(string id, bool cache = true)

@@ -194,7 +194,10 @@
 
         public async Task<Album> GetByIdAsync(string id, bool cache = true)
         {
-            return (await this.GetAllReqursiveAsync(cache)).FirstOrDefault(x => x.RowKey == id);
+            var filter = TableQuery
+                .GenerateFilterCondition("RowKey", QueryComparisons.Equal, id);
+            var result = await this.albums.QueryAsync(new TableQuery<Album>().Where(filter));
+            return result.FirstOrDefault();
         }
 
         public async Task RemoveAsync(string id)
