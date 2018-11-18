@@ -14,15 +14,22 @@ using MyServer.Web.Resources;
 
 namespace MyServer.Web.Pages.UsersAdmin
 {
+    using System.Threading.Tasks;
+
+    using MyServer.Services.ImageGallery;
+
     public class IndexModel : BasePageModel
     {
-        
-        public void OnGet()
+        private IAlbumService as1;
+
+        public async Task OnGet()
         {
+            var res = await this.as1.GetAllReqursiveAsync(true);
         }
 
-        public IndexModel(IUserService userService, IHttpContextAccessor httpContextAccessor) : base(userService, httpContextAccessor)
+        public IndexModel(IUserService userService, IHttpContextAccessor httpContextAccessor, IAlbumService as1) : base(userService, httpContextAccessor)
         {
+            this.as1 = as1;
         }
     }
 

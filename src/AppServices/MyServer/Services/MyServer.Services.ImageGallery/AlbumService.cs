@@ -165,7 +165,7 @@
 
         public async Task<IEnumerable<Album>> GetAllReqursiveAsync(bool cache = true)
         {
-            var firstAlbumToExcludeGuid = Guid.Parse(Constants.NoCoverId);
+            var firstAlbumToExcludeGuid = Guid.Parse(Constants.NoCoverId).ToString();
 
             if (cache)
             {
@@ -174,13 +174,7 @@
                 if (!this.memoryCache.TryGetValue(CacheKeys.AlbumsServiceCacheKey, out result))
                 {
                     // fetch the value from the source
-                    result = await this.albums.GetAllAsync();
-
-                    foreach (var album in result)
-                    {
-                        //album.Images = await this.images.QueryAsync
-                        //    (TableQuery.GenerateFilterCondition(album.PartitionKey.GetType().Name, QueryComparisons.Equal, album.RowKey));
-                    }
+                    result = (await this.albums.GetAllAsync()).Where(x => x.RowKey != firstAlbumToExcludeGuid).ToList().AsQueryable();
 
                     //result = this.albums.All().Include(x => x.Cover).Include(x => x.Images)
                     //    .ThenInclude(x => x.ImageGpsData)
@@ -196,15 +190,12 @@
                 return result;
             }
 
-            return null;
-                //this.albums.All().Include(x => x.Cover).Include(x => x.Images).ThenInclude(x => x.ImageGpsData)
-                //.Where(x => x.IsDeleted == false && x.Id != firstAlbumToExcludeGuid).ToList().AsQueryable();
-
+            return (await this.albums.GetAllAsync()).Where(x => x.RowKey != firstAlbumToExcludeGuid).ToList().AsQueryable();
         }
 
         public async Task<Album> GetByIdAsync(string id, bool cache = true)
         {
-            throw new NotImplementedException();
+            return (await this.GetAllReqursiveAsync(cache)).FirstOrDefault(x => x.RowKey == id);
         }
 
         public async Task RemoveAsync(string id)

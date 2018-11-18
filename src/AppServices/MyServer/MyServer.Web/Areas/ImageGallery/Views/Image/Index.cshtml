@@ -1,0 +1,31 @@
+﻿@model MyServer.Web.Areas.ImageGallery.Models.Image.ImageListViewModel
+@using Kendo.Mvc.UI
+
+@{
+    ViewData["Title"] = SharedLocalizer["Images"];
+}
+
+<div class="well well-mobile">
+    <div>
+        <h1 class="text-center">@SharedLocalizer["Images"]</h1>
+        <hr />
+    </div>
+
+    @if (!User.Identity.IsAuthenticated)
+    {
+        @Html.Partial("_AccessDenidedUser");
+    }
+    else
+    {
+        @Html.Partial("_SelectFilterPartial", Model)
+    }
+</div>
+
+@*@if (User.Identity.IsAuthenticated)
+{
+    <div class="well well-mobile">
+        <div id="images-container">
+            @await Component.InvokeAsync("ImageList", new { type = Model.Type, caption = Model.Caption, data = Model.Data })
+        </div>
+    </div>
+}*@

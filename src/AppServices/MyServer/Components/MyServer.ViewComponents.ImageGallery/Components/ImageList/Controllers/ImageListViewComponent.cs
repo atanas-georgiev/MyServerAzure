@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Localization;
@@ -40,15 +41,15 @@
 
             if (type == ImageListType.Album)
             {
-                var id = data as Guid?;
-                images = this.imageService.GetAllReqursive().Where(x => x.AlbumId == id.ToString()).To<ImageListViewModel>()
+                var id = data.ToString();
+                images = this.imageService.GetAllFromAlbumAsync(id).GetAwaiter().GetResult().To<ImageListViewModel>()
                     .OrderBy(x => x.DateTaken).ToList();
             }
             else if (type == ImageListType.Date)
             {
                 var date = (data as DateTime?).Value.Date;
 
-                images = this.imageService.GetAllReqursive()
+                images = this.imageService.GetAllAsync().GetAwaiter().GetResult()
                     .Where(x => x.DateTaken != null && x.DateTaken.Value.Date == date).To<ImageListViewModel>()
                     .OrderByDescending(x => x.DateTaken).ToList();
                 

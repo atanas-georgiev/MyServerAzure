@@ -18,11 +18,21 @@
         {
         }
 
-        public IEnumerable<Image> Images { get; set; }
+        public int ImagesCount { get; set; }
+
+        public DateTime? FirstTmageTaken { get; set; }
+
+        public DateTime? LastTmageTaken { get; set; }
 
         public int Access { get; set; }
 
-        public string CoverId { get; set; }
+        public string CoverAlbumId { get; set; }
+
+        public string CoverAlbumFilename { get; set; }
+
+        public int CoverLowWidth { get; set; }
+
+        public int CoverLowHeight { get; set; }
 
         [MaxLength(3000)]
         public string DescriptionBg { get; set; }

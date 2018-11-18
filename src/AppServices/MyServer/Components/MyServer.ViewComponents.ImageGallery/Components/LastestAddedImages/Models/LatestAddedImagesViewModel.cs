@@ -14,7 +14,7 @@
 
     public class LatestAddedImagesViewModel : IMapFrom<Image>, IHaveCustomMappings
     {
-        public Guid? AlbumId { get; set; }
+        public string PartitionKey { get; set; }
 
         [MaxLength(50)]
         public string Aperture { get; set; }
@@ -43,8 +43,6 @@
         public int Height { get; set; }
 
         public Guid Id { get; set; }
-
-        // public GpsDataViewModel ImageGpsData { get; set; }
 
         public string Info { get; set; }
 
@@ -88,16 +86,16 @@
                 .ForMember(
                     m => m.OriginalDownloadPath,
                     opt => opt.MapFrom(
-                        c => Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderOriginal + "/"
+                        c => Constants.MainContentFolder + "/" + c.PartitionKey + "/" + Constants.ImageFolderOriginal + "/"
                              + c.FileName))
                 .ForMember(
                     m => m.MiddleImageSource,
                     opt => opt.MapFrom(
-                        c => Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderMiddle + "/"
+                        c => Constants.MainContentFolder + "/" + c.PartitionKey + "/" + Constants.ImageFolderMiddle + "/"
                              + c.FileName)).ForMember(
                     m => m.LowImageSource,
                     opt => opt.MapFrom(
-                        c => Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderLow + "/"
+                        c => Constants.MainContentFolder + "/" + c.PartitionKey + "/" + Constants.ImageFolderLow + "/"
                              + c.FileName));
         }
     }

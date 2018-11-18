@@ -22,8 +22,6 @@
         {
         }
 
-        public string AlbumId { get; set; }
-
         [MaxLength(50)]
         public string Aperture { get; set; }
 
@@ -69,5 +67,12 @@
         public string Title { get; set; }
 
         public int Width { get; set; }
+
+        public double? GpsLatitude { get; set; }
+
+        [MaxLength(200)]
+        public string GpsLocationName { get; set; }
+
+        public double? GpsLongitude { get; set; }
     }
 }

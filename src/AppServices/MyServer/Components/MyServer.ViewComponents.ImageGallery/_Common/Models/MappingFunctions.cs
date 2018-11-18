@@ -8,6 +8,7 @@
 
     using Microsoft.Extensions.Localization;
 
+    using MyServer.Common;
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Models;
     using MyServer.ViewComponents.ImageGallery.Resources;
@@ -23,49 +24,42 @@
 
         public static string MapCoverImage(Album source)
         {
-            //return Constants.MainContentFolder + "/" + source.Cover.AlbumId + "/" + Constants.ImageFolderLow + "/"
-            //       + source.Cover.FileName;
-
-            return null;
+            return Constants.MainContentFolder + "/" + source.CoverAlbumId + "/" + Constants.ImageFolderLow + "/"
+                   + source.CoverAlbumFilename;
         }
 
         public static string MapDate(Album source)
         {
-            //if (source.Images == null)
-            //{
-            //    return string.Empty;
-            //}
+            if (source.ImagesCount == 0)
+            {
+                return string.Empty;
+            }
 
-            //var dates = source.Images.Where(x => x.DateTaken != null).Select(x => x.DateTaken).ToList();
+            if (source.FirstTmageTaken != null && source.LastTmageTaken != null)
+            {
+                var firstDate = source.FirstTmageTaken.Value;
+                var lastDate = source.LastTmageTaken.Value;
 
-            //if (dates.Count == 0)
-            //{
-            //    return string.Empty;
-            //}
-            //else
-            //{
-            //    var firstDate = dates.OrderBy(x => x.Value).Select(x => x.Value).First();
-            //    var lastDate = dates.OrderBy(x => x.Value).Select(x => x.Value).Last();
+                if (firstDate.Date == lastDate.Date)
+                {
+                    return firstDate.ToString("dd MMMM yyyy");
+                }
+                else if (firstDate.Year == lastDate.Year && firstDate.Month == lastDate.Month)
+                {
+                    return firstDate.Day + "-" + lastDate.Day + " " + firstDate.ToString("MMMM yyyy");
+                }
+                else if (firstDate.Year == lastDate.Year)
+                {
+                    return firstDate.ToString("dd MMMM") + "-" + lastDate.ToString("dd MMMM") + " "
+                           + lastDate.ToString("yyyy");
+                }
+                else
+                {
+                    return firstDate.ToString("dd MMMM yyyy") + "-" + lastDate.ToString("dd MMMM yyyy");
+                }
+            }
 
-            //    if (firstDate.Date == lastDate.Date)
-            //    {
-            //        return firstDate.ToString("dd MMMM yyyy");
-            //    }
-            //    else if (firstDate.Year == lastDate.Year && firstDate.Month == lastDate.Month)
-            //    {
-            //        return firstDate.Day + "-" + lastDate.Day + " " + firstDate.ToString("MMMM yyyy");
-            //    }
-            //    else if (firstDate.Year == lastDate.Year)
-            //    {
-            //        return firstDate.ToString("dd MMMM") + "-" + lastDate.ToString("dd MMMM") + " "
-            //               + lastDate.ToString("yyyy");
-            //    }
-            //    else
-            //    {
-            //        return firstDate.ToString("dd MMMM yyyy") + "-" + lastDate.ToString("dd MMMM yyyy");
-            //    }
-            //}
-            return null;
+            return string.Empty;
         }
 
         public static string MapDescription(Album source)
@@ -86,31 +80,27 @@
 
         public static string MapFbImage(Album source)
         {
-            //return Constants.MainContentFolder + "/" + source.Cover.AlbumId + "/" + Constants.ImageFolderMiddle + "/"
-            //       + source.Cover.FileName;
-
-            return null;
+            return Constants.MainContentFolder + "/" + source.CoverAlbumId + "/" + Constants.ImageFolderMiddle + "/"
+                   + source.CoverAlbumFilename;
         }
 
         public static List<double> MapGpsCoordinates(Image source)
         {
-            //return source.ImageGpsData != null
-            //           ? new List<double>() { source.ImageGpsData.Latitude.Value, source.ImageGpsData.Longitude.Value }
-            //           : null;
-            return null;
+            return (source.GpsLatitude != null && source.GpsLongitude != null)
+                       ? new List<double>() { source.GpsLatitude.Value, source.GpsLongitude.Value }
+                       : null;
         }
 
         public static string MapGpsName(Image source)
         {
-            return null;//source.ImageGpsData?.LocationName;
+            return source.GpsLocationName;
         }
 
         public static int MapHeight(Album source)
         {
-            return 0;
-            //return source.CoverId == null
-            //           ? Convert.ToInt32(Convert.ToDouble(Constants.ImageLowMaxSize) / 1.5)
-            //           : source.Cover.LowHeight;
+            return source.CoverAlbumId == null
+                       ? Convert.ToInt32(Convert.ToDouble(Constants.ImageLowMaxSize) / 1.5)
+                       : source.CoverLowHeight;
         }
 
         //public static IEnumerable<ImageGpsData> MapImageCoordinates(Album source)
@@ -121,13 +111,12 @@
 
         public static string MapImagesCountCover(Album source)
         {
-            //switch (source.Images.Count)
-            //{
-            //    case 0: return SharedLocalizer["NoItems"];
-            //    case 1: return "1 " + SharedLocalizer["Item"];
-            //    default: return source.Images.Count + " " + SharedLocalizer["Items"];
-            //}
-            return null;
+            switch (source.ImagesCount)
+            {
+                case 0: return SharedLocalizer["NoItems"];
+                case 1: return "1 " + SharedLocalizer["Item"];
+                default: return source.ImagesCount + " " + SharedLocalizer["Items"];
+            }
         }
 
         public static string MapInfo(Image source)
@@ -181,6 +170,11 @@
             return result.ToString();
         }
 
+        public static MyServerAccessType MapAccess(Album source)
+        {
+            return (MyServerAccessType)source.Access;
+        }
+
         public static string MapTitle(Album source)
         {
             var culture = CultureInfo.CurrentCulture.ToString();
@@ -199,7 +193,7 @@
 
         public static int MapWidth(Album source)
         {
-            return 0;//source.CoverId == null ? Constants.ImageLowMaxSize : source.Cover.LowWidth;
+            return source.CoverAlbumId == null ? Constants.ImageLowMaxSize : source.CoverLowWidth;
         }
     }
 }

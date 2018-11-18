@@ -1,0 +1,131 @@
+﻿@using System.Globalization
+@using System.Threading.Tasks
+@using MyServer.Common.ImageGallery
+@using MyServer.Web.Areas.ImageGallery.Models.Album
+@*@using MyServer.ViewComponents.ImageGallery.Components.ImageList.Controllers*@
+@model MyServer.Web.Areas.ImageGallery.Models.Album.AlbumViewModel
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div id="fb-root"></div>
+<div class="container well well-main well-mobile">
+    <h1 class="well-title text-center">@Model.Title</h1>
+    <h2 class="text-center">@Model.Date</h2>
+    <hr/>
+
+    @if (Model.Access == MyServer.Common.MyServerAccessType.Registrated && !User.Identity.IsAuthenticated)
+    {
+        @Html.Partial("_AccessDenidedUser");
+    }
+    else if (Model.Access == MyServer.Common.MyServerAccessType.Private && !User.IsInRole(MyServer.Common.MyServerRoles.Admin.ToString()))
+    {
+        @Html.Partial("_AccessDenidedAdmin");
+    }
+    else
+    {
+        @if (Model.Description != null)
+        {
+            <p class="text-center">
+                @Html.Raw(Model.Description)
+            </p>
+            <hr />
+        }
+
+        @*@if (Model.ImageCoordinates != null && Model.ImageCoordinates.Count() != 0)
+        {
+            foreach (var gps in Model.ImageCoordinates)
+            {
+                var url = "http://www.google.com/maps/place/" + gps.Latitude.ToString().Replace(",", ".") + "," + gps.Longitude.ToString().Replace(",", ".");
+                <p class="text-center">
+                    <span class="glyphicon glyphicon-map-marker"></span>
+                    <a href="@url" target="_blank">@gps.LocationName</a>
+                </p>
+            }
+
+            <hr />
+        }*@
+
+        <div class="text-center">
+            @if (User.IsInRole(MyServer.Common.MyServerRoles.Admin.ToString()))
+            {
+                <a class="btn btn-default" asp-action="Edit" asp-controller="Album" asp-route-area="ImageGalleryAdmin" asp-route-id="@Model.RowKey">
+                    <i class="fa fa-lock" aria-hidden="true"></i> @LocString["Edit"]
+                </a>
+            }
+            <div class="btn-group">
+                <a href="#" data-target="#" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    @LocString["Download"]
+                    <span id="loading" style="display: none">
+                        <img src="~/img/ajax-loader.gif" alt="" />
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.RowKey" asp-route-type="@ImageType.Low" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">@LocString["LowQuality"]</a>
+                    </li>
+                    <li>
+                        <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.RowKey" asp-route-type="@ImageType.Medium" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">@LocString["MiddleQuality"]</a>
+                    </li>
+                    <li>
+                        <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.RowKey" asp-route-type="@ImageType.Original" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">@LocString["HighQuality"]</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="shareBtn" class="fb-share-button clearfix" data-type="button" data-size="large"></div>
+
+        </div>
+        <hr />
+
+        <div id="images-container">
+            @await Component.InvokeAsync("ImageList", new { type = ImageListType.Album, data = Model.RowKey })
+        </div>
+    }
+</div>
+
+@section Styles {
+    <meta property="og:url" content='@("http://atanas.it/ImageGallery/Album/Details/" + Model.RowKey)'/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="@Model.Title"/>
+    <meta property="og:description" content="@Model.Description"/>
+    <meta property="og:image" content='@("http://atanas.it" + Model.FbImage)'/>
+    <meta property="fb:app_id" content="521558431365642"/>
+}
+
+<script>
+    $(document)
+        .ready(function() {
+           
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId: '521558431365642',
+                    xfbml: true,
+                    version: 'v2.6'
+                });
+            };
+
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {
+                    return;
+                }
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//connect.facebook.net/@CultureInfo.CurrentCulture.ToString()/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+            if (document.getElementById('shareBtn')) {
+                document.getElementById('shareBtn').onclick = function() {
+                    urlfb = 'http://atanas.it/ImageGallery/Album/Details/' + '@Model.RowKey';
+                    FB.ui({
+                            method: 'share',
+                            display: 'popup',
+                            href: urlfb,
+                        },
+                        function(response) {});
+                }
+            }
+        });
+</script>

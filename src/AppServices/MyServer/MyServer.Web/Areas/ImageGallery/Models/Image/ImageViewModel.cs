@@ -1,4 +1,4 @@
-﻿namespace MyServer.ViewComponents.ImageGallery.Components.AllAlbums.Models
+﻿namespace MyServer.Web.Areas.ImageGallery.Models.Image
 {
     using System;
     using System.Collections.Generic;
@@ -9,11 +9,11 @@
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Models;
     using MyServer.Services.Mappings;
-    using MyServer.ViewComponents.ImageGallery._Common.Models;
+    using MyServer.Web.Areas.Shared.Models;
 
-    public class AllImagesViewModel : IMapFrom<Image>, IHaveCustomMappings
+    public class ImageViewModel : IMapFrom<Image>, IHaveCustomMappings
     {
-        public string PartitionKey { get; set; }
+        public Guid? AlbumId { get; set; }
 
         [MaxLength(50)]
         public string Aperture { get; set; }
@@ -42,6 +42,8 @@
         public int Height { get; set; }
 
         public Guid Id { get; set; }
+
+        // public GpsDataViewModel ImageGpsData { get; set; }
 
         public string Info { get; set; }
 
@@ -78,24 +80,31 @@
 
         public void CreateMappings(IMapperConfigurationExpression configuration)
         {
-            configuration.CreateMap<Image, AllImagesViewModel>()
-                .ForMember(m => m.Info, opt => opt.MapFrom(src => MappingFunctions.MapInfo(src)))
-                .ForMember(m => m.GpsCoordinates, opt => opt.MapFrom(src => MappingFunctions.MapGpsCoordinates(src)))
-                .ForMember(m => m.GpsName, opt => opt.MapFrom(src => MappingFunctions.MapGpsName(src)))
-                .ForMember(
-                    m => m.OriginalDownloadPath,
-                    opt => opt.MapFrom(
-                        c => Constants.MainContentFolder + "/" + c.PartitionKey + "/" + Constants.ImageFolderOriginal + "/"
-                             + c.FileName))
-                .ForMember(
-                    m => m.MiddleImageSource,
-                    opt => opt.MapFrom(
-                        c => Constants.MainContentFolder + "/" + c.PartitionKey + "/" + Constants.ImageFolderMiddle + "/"
-                             + c.FileName)).ForMember(
-                    m => m.LowImageSource,
-                    opt => opt.MapFrom(
-                        c => Constants.MainContentFolder + "/" + c.PartitionKey + "/" + Constants.ImageFolderLow + "/"
-                             + c.FileName));
+            //configuration.CreateMap<Image, ImageViewModel>()
+            //    .ForMember(m => m.Info, opt => opt.MapFrom(src => MappingFunctions.MapInfo(src)))
+            //    .ForMember(m => m.GpsCoordinates, opt => opt.MapFrom(src => MappingFunctions.MapGpsCoordinates(src)))
+            //    .ForMember(m => m.GpsName, opt => opt.MapFrom(src => MappingFunctions.MapGpsName(src)))
+            //    .ForMember(
+            //        m => m.OriginalDownloadPath,
+            //        opt =>
+            //            opt.MapFrom(
+            //                c =>
+            //                    Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderOriginal
+            //                    + "/" + c.FileName))
+            //    .ForMember(
+            //        m => m.MiddleImageSource,
+            //        opt =>
+            //            opt.MapFrom(
+            //                c =>
+            //                    Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderMiddle
+            //                    + "/" + c.FileName))
+            //    .ForMember(
+            //        m => m.LowImageSource,
+            //        opt =>
+            //            opt.MapFrom(
+            //                c =>
+            //                    Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderLow + "/"
+            //                    + c.FileName));
         }
     }
 }

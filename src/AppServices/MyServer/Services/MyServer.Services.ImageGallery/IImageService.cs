@@ -1,8 +1,10 @@
 ﻿namespace MyServer.Services.ImageGallery
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using MyServer.Common;
     using MyServer.Data.Models;
@@ -13,9 +15,11 @@
 
         // void AddGpsDataToImage(Guid imageId, ImageGpsData gpsData);
 
-        IQueryable<Image> GetAllReqursive(bool cache = true);
+        Task<IEnumerable<Image>> GetAllAsync(bool cache = true);
 
-        Image GetById(Guid id, bool cache = true);
+        Task<IEnumerable<Image>> GetAllFromAlbumAsync(string albumId, bool cache = true);
+
+        Task<Image> GetByIdAsync(string id, bool cache = true);
 
         string GetRandomImagePath();
 

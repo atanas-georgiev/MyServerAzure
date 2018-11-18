@@ -1,0 +1,16 @@
+﻿@model MyServer.Web.Areas.Shared.Models.SortFilterAlbumViewModel
+@{
+    ViewData["Title"] = SharedLocalizer["Albums"];
+}
+
+<div class="well well-mobile">
+    <div>
+        <h1 class="text-center">@SharedLocalizer["Albums"]</h1>
+        <hr />
+    </div>
+    @Html.Partial("_SortFilterPartial", Model)
+</div>
+
+<div id="image-container" class="well well-mobile">
+    @await Component.InvokeAsync("AllAlbums", new { ViewDetailsUrl = "Album/Details/" })
+</div>

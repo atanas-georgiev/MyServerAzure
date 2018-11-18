@@ -28,6 +28,8 @@ namespace MyServer.Web
     using MyServer.Services.ImageGallery;
     using MyServer.Services.Mappings;
     using MyServer.Services.Users;
+    using MyServer.ViewComponents.Common.Components.Social.Controllers;
+    using MyServer.ViewComponents.ImageGallery.Components.LatestAddedAlbums.Controllers;
     using MyServer.Web.Helpers;
 
     using Newtonsoft.Json.Serialization;
@@ -108,8 +110,8 @@ namespace MyServer.Web
                 new List<Assembly>
                     {
                         Assembly.GetEntryAssembly(),
-                        // typeof(LatestAddedAlbumsViewComponent).GetTypeInfo().Assembly,
-                        // typeof(SocialViewComponent).GetTypeInfo().Assembly
+                        typeof(LatestAddedAlbumsViewComponent).GetTypeInfo().Assembly,
+                        typeof(SocialViewComponent).GetTypeInfo().Assembly
                     });
         }
 
@@ -138,6 +140,10 @@ namespace MyServer.Web
             services.Add(ServiceDescriptor.Scoped(typeof(IRepository<>), typeof(AzureTableStorage<>)));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IAlbumService, AlbumService>();
+            services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<ILocationService, LocationService>();
+            
 
             services.AddMvc(options => options.Filters.Add(typeof(RequireHttpsAttribute)))
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver())
@@ -149,7 +155,6 @@ namespace MyServer.Web
 
             var embeddedFileProviders = new List<EmbeddedFileProvider>();
 
-            /*
             // ImageGalleryViewComponents
             embeddedFileProviders.Add(
                 new EmbeddedFileProvider(
@@ -160,7 +165,7 @@ namespace MyServer.Web
             embeddedFileProviders.Add(
                 new EmbeddedFileProvider(
                     typeof(SocialViewComponent).GetTypeInfo().Assembly,
-                    "MyServer.ViewComponents.Common"));*/
+                    "MyServer.ViewComponents.Common"));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

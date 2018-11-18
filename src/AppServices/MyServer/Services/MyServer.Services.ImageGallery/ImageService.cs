@@ -1,9 +1,11 @@
 ﻿namespace MyServer.Services.ImageGallery
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using ImageMagick;
 
@@ -128,89 +130,88 @@
 
         //public void AddGpsDataToImage(Guid imageId, ImageGpsData gpsData)
         //{
-            //var image = this.images.GetById(imageId);
-            //if (image != null && gpsData?.Latitude != null && gpsData.Longitude.HasValue)
-            //{
-            //    image.ImageGpsData = gpsData;
-            //    this.Update(image);
+        //var image = this.images.GetById(imageId);
+        //if (image != null && gpsData?.Latitude != null && gpsData.Longitude.HasValue)
+        //{
+        //    image.ImageGpsData = gpsData;
+        //    this.Update(image);
 
-            //    var lowFile = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId + "/"
-            //                  + Constants.ImageFolderLow + "/" + image.FileName;
-            //    var middleFile = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
-            //                     + "/" + Constants.ImageFolderMiddle + "/" + image.FileName;
-            //    var highFile = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId + "/"
-            //                   + Constants.ImageFolderOriginal + "/" + image.FileName;
+        //    var lowFile = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId + "/"
+        //                  + Constants.ImageFolderLow + "/" + image.FileName;
+        //    var middleFile = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
+        //                     + "/" + Constants.ImageFolderMiddle + "/" + image.FileName;
+        //    var highFile = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId + "/"
+        //                   + Constants.ImageFolderOriginal + "/" + image.FileName;
 
-            //    using (var imageMagick = new MagickImage(lowFile))
-            //    {
-            //        var exif = imageMagick.GetExifProfile() ?? new ExifProfile();
-            //        exif.Parts = ExifParts.All;
-            //        exif.SetValue(ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
-            //        exif.SetValue(ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
-            //        imageMagick.AddProfile(exif, true);
-            //        imageMagick.Write(lowFile);
-            //    }
+        //    using (var imageMagick = new MagickImage(lowFile))
+        //    {
+        //        var exif = imageMagick.GetExifProfile() ?? new ExifProfile();
+        //        exif.Parts = ExifParts.All;
+        //        exif.SetValue(ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
+        //        exif.SetValue(ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
+        //        imageMagick.AddProfile(exif, true);
+        //        imageMagick.Write(lowFile);
+        //    }
 
-            //    using (var imageMagick = new MagickImage(middleFile))
-            //    {
-            //        var exif = imageMagick.GetExifProfile() ?? new ExifProfile();
-            //        exif.Parts = ExifParts.All;
-            //        exif.SetValue(ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
-            //        exif.SetValue(ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
-            //        imageMagick.AddProfile(exif, true);
-            //        imageMagick.Write(middleFile);
-            //    }
+        //    using (var imageMagick = new MagickImage(middleFile))
+        //    {
+        //        var exif = imageMagick.GetExifProfile() ?? new ExifProfile();
+        //        exif.Parts = ExifParts.All;
+        //        exif.SetValue(ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
+        //        exif.SetValue(ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
+        //        imageMagick.AddProfile(exif, true);
+        //        imageMagick.Write(middleFile);
+        //    }
 
-            //    using (var imageMagick = new MagickImage(highFile))
-            //    {
-            //        var exif = imageMagick.GetExifProfile() ?? new ExifProfile();
-            //        exif.Parts = ExifParts.All;
-            //        exif.SetValue(ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
-            //        exif.SetValue(ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
-            //        imageMagick.AddProfile(exif, true);
-            //        imageMagick.Write(highFile);
-            //    }
-            //}
-
-            //this.memoryCache.Remove(CacheKeys.AlbumsServiceCacheKey);
-            //this.memoryCache.Remove(CacheKeys.ImageServiceCacheKey);
-            //this.memoryCache.Remove(CacheKeys.FileServiceCacheKey);
+        //    using (var imageMagick = new MagickImage(highFile))
+        //    {
+        //        var exif = imageMagick.GetExifProfile() ?? new ExifProfile();
+        //        exif.Parts = ExifParts.All;
+        //        exif.SetValue(ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
+        //        exif.SetValue(ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
+        //        imageMagick.AddProfile(exif, true);
+        //        imageMagick.Write(highFile);
+        //    }
         //}
 
-        public IQueryable<Image> GetAllReqursive(bool cache = true)
+        //this.memoryCache.Remove(CacheKeys.AlbumsServiceCacheKey);
+        //this.memoryCache.Remove(CacheKeys.ImageServiceCacheKey);
+        //this.memoryCache.Remove(CacheKeys.FileServiceCacheKey);
+        //}
+
+        public async Task<IEnumerable<Image>> GetAllAsync(bool cache = true)
         {
-            //var firstImageToBeExcludeGuid = Guid.Parse(Constants.NoCoverId);
+            var firstImageToBeExcludeGuid = Guid.Parse(Constants.NoCoverId).ToString();
 
-            //if (cache)
-            //{
-            //    IQueryable<Image> result;
+            if (cache)
+            {
+                IEnumerable<Image> result;
 
-            //    if (!this.memoryCache.TryGetValue(CacheKeys.ImageServiceCacheKey, out result))
-            //    {
-            //        // fetch the value from the source
-            //        result = this.images.All().Where(x => x.IsDeleted == false && x.Id != firstImageToBeExcludeGuid)
-            //            .Include(x => x.Album).Include(x => x.Comments).Include(x => x.ImageGpsData).ToList()
-            //            .AsQueryable();
+                if (!this.memoryCache.TryGetValue(CacheKeys.ImageServiceCacheKey, out result))
+                {
+                    result = (await this.images.GetAllAsync()).Where(x => x.RowKey != firstImageToBeExcludeGuid).ToList().AsQueryable();
 
-            //        // store in the cache
-            //        this.memoryCache.Set(
-            //            CacheKeys.ImageServiceCacheKey,
-            //            result,
-            //            new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(365)));
-            //    }
+                    // store in the cache
+                    this.memoryCache.Set(
+                        CacheKeys.ImageServiceCacheKey,
+                        result,
+                        new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(365)));
+                }
 
-            //    return result;
-            //}
+                return result;
+            }
 
-            //return this.images.All().Where(x => x.IsDeleted == false && x.Id != firstImageToBeExcludeGuid)
-            //    .Include(x => x.Album).Include(x => x.Comments).Include(x => x.ImageGpsData).ToList().AsQueryable();
-
-            return null;
+            return (await this.images.GetAllAsync()).Where(x => x.RowKey != firstImageToBeExcludeGuid).ToList().AsQueryable();
         }
 
-        public Image GetById(Guid id, bool cache = true)
+        public async Task<IEnumerable<Image>> GetAllFromAlbumAsync(string albumId, bool cache = true)
         {
-            return null;//this.GetAllReqursive(cache).FirstOrDefault(x => x.Id == id);
+            return (await this.GetAllAsync(cache)).Where(x => x.PartitionKey == albumId);
+        }
+
+        public async Task<Image> GetByIdAsync(string id, bool cache = true)
+        {
+            return (await this.GetAllAsync(cache)).FirstOrDefault(x => x.RowKey == id);
         }
 
         public string GetRandomImagePath()

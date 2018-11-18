@@ -1,6 +1,7 @@
 ﻿namespace MyServer.ViewComponents.ImageGallery.Components.LastestAddedImages.Controllers
 {
     using System.Linq;
+    using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Localization;
@@ -28,7 +29,7 @@
 
         public IViewComponentResult Invoke(string allImagesRoute)
         {
-            var images = this.imageService.GetAllReqursive().OrderByDescending(x => x.CreatedOn).Take(18)
+            var images = this.imageService.GetAllAsync().GetAwaiter().GetResult().OrderByDescending(x => x.CreatedOn).Take(18)
                 .To<LatestAddedImagesViewModel>().ToList();
 
             this.ViewBag.StringLocalizer = this.localizer;

@@ -43,23 +43,17 @@
                 case MyServerSortType.SortDateAddedDesc:
                     albums = albums.OrderByDescending(x => x.CreatedOn);
                     break;
-                //case MyServerSortType.SortImagesCountAsc:
-                //    albums = albums.OrderBy(x => x.Images.Count);
-                //    break;
-                //case MyServerSortType.SortImagesCountDesc:
-                //    albums = albums.OrderByDescending(x => x.Images.Count);
-                //    break;
+                case MyServerSortType.SortImagesCountAsc:
+                    albums = albums.OrderBy(x => x.ImagesCount);
+                    break;
+                case MyServerSortType.SortImagesCountDesc:
+                    albums = albums.OrderByDescending(x => x.ImagesCount);
+                    break;
                 case MyServerSortType.SortImagesDateAsc:
-                    albums = albums.OrderBy(
-                        x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null
-                                 ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken
-                                 : null);
+                    albums = albums.OrderBy(d => d.LastTmageTaken);
                     break;
                 case MyServerSortType.SortImagesDateDesc:
-                    albums = albums.OrderByDescending(
-                        x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null
-                                 ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken
-                                 : null);
+                    albums = albums.OrderByDescending(d => d.LastTmageTaken);
                     break;
             }
 
@@ -77,14 +71,14 @@
             this.ViewBag.ViewDetailsUrl = ViewDetailsUrl;
             this.ViewBag.NewAlbumUrl = NewAlbumUrl;
 
-            //try
-            //{
-            //    return this.View(albums?.To<AllAlbumsViewModel>()?.ToList());
-            //}
-            //catch (NullReferenceException)
-            //{
+            try
+            {
+                return this.View(albums?.To<AllAlbumsViewModel>()?.ToList());
+            }
+            catch (NullReferenceException)
+            {
                 return this.View(new List<AllAlbumsViewModel>());
-            //}
+            }
         }
     }
 }

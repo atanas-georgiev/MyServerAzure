@@ -1,4 +1,4 @@
-﻿namespace MyServer.ViewComponents.ImageGallery.Components.AllAlbums.Models
+﻿namespace MyServer.Web.Areas.ImageGallery.Models.Album
 {
     using System;
     using System.Collections.Generic;
@@ -9,9 +9,10 @@
     using MyServer.Common;
     using MyServer.Data.Models;
     using MyServer.Services.Mappings;
-    using MyServer.ViewComponents.ImageGallery._Common.Models;
+    using MyServer.Web.Areas.ImageGallery.Models.Image;
+    using MyServer.Web.Areas.Shared.Models;
 
-    public class AllAlbumsViewModel : IMapFrom<Album>, IHaveCustomMappings
+    public class AlbumViewModel : IMapFrom<Album>, IHaveCustomMappings
     {
         public MyServerAccessType Access { get; set; }
 
@@ -28,9 +29,9 @@
 
         public string RowKey { get; set; }
 
-        //public IEnumerable<ImageGpsData> ImageCoordinates { get; set; }
+        // public IEnumerable<ImageGpsData> ImageCoordinates { get; set; }
 
-        // public List<AllImagesViewModel> Images { get; set; }
+        // public List<ImageViewModel> Images { get; set; }
 
         public string ImagesCountCover { get; set; }
 
@@ -41,14 +42,14 @@
 
         public void CreateMappings(IMapperConfigurationExpression configuration)
         {
-            configuration.CreateMap<Album, AllAlbumsViewModel>()
+            configuration.CreateMap<Album, AlbumViewModel>()
                 .ForMember(m => m.Access, opt => opt.MapFrom(c => MappingFunctions.MapAccess(c)))
                 .ForMember(m => m.Title, opt => opt.MapFrom(c => MappingFunctions.MapTitle(c)))
                 .ForMember(m => m.Description, opt => opt.MapFrom(c => MappingFunctions.MapDescription(c)))
                 .ForMember(m => m.ImagesCountCover, opt => opt.MapFrom(c => MappingFunctions.MapImagesCountCover(c)))
                 .ForMember(m => m.CoverImage, opt => opt.MapFrom(c => MappingFunctions.MapCoverImage(c)))
                 .ForMember(m => m.FbImage, opt => opt.MapFrom(c => MappingFunctions.MapFbImage(c)))
-                // .ForMember(m => m.ImageCoordinates, opt => opt.MapFrom(c => MappingFunctions.MapImageCoordinates(c)))
+                //.ForMember(m => m.ImageCoordinates, opt => opt.MapFrom(c => MappingFunctions.MapImageCoordinates(c)))
                 .ForMember(m => m.Date, opt => opt.MapFrom(c => MappingFunctions.MapDate(c)));
         }
     }
