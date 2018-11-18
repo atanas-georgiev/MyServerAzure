@@ -11,18 +11,18 @@
     <ul class="nav navbar-nav navbar-right">
         @if (!string.IsNullOrEmpty(AzureAdB2COptions.Value.EditProfilePolicyId))
         {
-            <li><a asp-area="" asp-controller="Account" asp-action="EditProfile">@User.Identity.Name</a></li>
+            <li><a href="/Account/EditProfile">@User.Identity.Name</a></li>
         }
         else
         {
             <li class="navbar-text">Hello @User.Identity.Name!</li>
         }
-        <li><a asp-area="" asp-controller="Account" asp-action="SignOut">@SharedLocalizer["Exit"]</a></li>
+        <li><a href="/Account/SignOut">@SharedLocalizer["Exit"]</a></li>
     </ul>
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a asp-area="" asp-controller="Account" asp-action="Signin">@SharedLocalizer["Login"]</a></li>
+        <li><a href="/Account/Signin">@SharedLocalizer["Login"]</a></li>
     </ul>
 }
