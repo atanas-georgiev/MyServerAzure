@@ -7,6 +7,9 @@
     <FileVersion Condition=" '$(BUILD_BUILDNUMBER)' == '' ">0.0.0.1</FileVersion>
     <FileVersion Condition=" '$(BUILD_BUILDNUMBER)' != '' ">$(BUILD_BUILDNUMBER)</FileVersion>
   </PropertyGroup>
+  <PropertyGroup>
+    <RuntimeFrameworkVersion>2.1.1</RuntimeFrameworkVersion>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="BuildBundlerMinifier" Version="2.8.391" />
